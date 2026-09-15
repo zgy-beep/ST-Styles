@@ -6,16 +6,22 @@
  * 二改分享需注明原作者
  * 禁止任何形式的商用及商用目的的引流！
  *
- * 优化增强版：修复语法 Bug、清洗冗余代码、增强全局触觉动效、升级双色光效与现代化酒馆特性
+ * 【ST-Styles 独家特色增强版】：
+ * 1. 浮空轻奢双色气泡（告别死板平铺直角，支持呼吸双边微光与圆角卡片）
+ * 2. 悬浮磨砂流光底栏（Floating Island + 柔光霓虹聚焦）
+ * 3. 极客胶囊元数据标签（Token/计时器/消息ID 胶囊徽章化）
+ * 4. 灵动流光星芒呼吸灯（✦ 动态环境光影）
+ * 5. 深度思考舱（Reasoning HUD 折叠舱）
+ * 6. 全面屏安全区与全站平滑微动效
  */
 
 /* ==========================================================================
-   1. 全局变量与设计系统 (Design System Variables)
+   1. 全局设计系统与独家特色配置 (Design System & Custom Features)
    ========================================================================== */
 :root {
   /* --- 核心主题色体系 --- */
-  --theme-color-1: var(--SmartThemeQuoteColor);           /* 主色1（对应引用文本） */
-  --theme-color-2: var(--SmartThemeUnderlineColor);       /* 主色2（对应下划线） */
+  --theme-color-1: var(--SmartThemeQuoteColor);           /* 主色1（对应引用文本/AI标识色） */
+  --theme-color-2: var(--SmartThemeUnderlineColor);       /* 主色2（对应下划线/用户标识色） */
   --ui-color-main: var(--SmartThemeBlurTintColor);        /* 对应UI背景 */
   --ui-color-sec: color-mix(
     in srgb,
@@ -35,43 +41,57 @@
   /* --- 渐变与动态混合色 --- */
   --gradient-main: linear-gradient(
     135deg,
-    var(--theme-color-1) 30%,
+    var(--theme-color-1) 25%,
     color-mix(in srgb, var(--theme-color-1) 50%, var(--theme-color-2) 50%) 50%,
-    var(--theme-color-2) 70%
+    var(--theme-color-2) 75%
   );
 
-  /* --- 尺寸与布局间隙 --- */
-  --mes-width: 100%;                                      /* 聊天气泡与整体聊天界面距离 */
-  --mes-block-width: 98%;                                 /* 聊天记录文字与气泡左右边框距离 */
-  --box-border-radius: 0px;                               /* 所有盒子的圆角大小 */
+  /* --- 【特色参数：随心定制】--- */
+  --mes-width: 95%;                                       /* 气泡卡片宽度（留出左右呼吸缝隙） */
+  --mes-block-width: 96%;                                 /* 消息内部文字宽度 */
+  --box-border-radius: 12px;                              /* 通用容器圆角 */
+  --bubble-border-radius: 14px;                           /* 消息气泡轻奢圆角 */
   --top-distance: 0px;                                    /* 顶栏与上边沿距离 */
   --bottom-distance: 0px;                                 /* 底栏与下边沿距离 */
-  --chat-send-spacing: 0px;                               /* 聊天界面与发送框距离 */
-  --leftRight-chat-spacing: 0px;                          /* 聊天界面与左右边沿距离（电脑端） */
-  --scroll-width: 6px;                                    /* 滚动条宽度 */
+  --chat-send-spacing: 6px;                               /* 聊天界面与发送框距离 */
+  --leftRight-chat-spacing: 0px;                          /* 电脑端边沿间隙 */
+  --scroll-width: 6px;                                    /* 胶囊滚动条宽度 */
   --icon-size: var(--mainFontSize);                       /* 图标基准尺寸 */
-  --border-radius-small: 6px;
-  --border-radius-medium: 10px;
+  --border-radius-small: 8px;
+  --border-radius-medium: 12px;
   --spacing-long: 10px;
   --spacing-short: 5px;
 
-  /* --- 交互微动效时间曲线 (Micro-interaction Transitions) --- */
-  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  /* --- 贝塞尔曲线微动效 --- */
+  --transition-fast: 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.26s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* 全局文本划词主题高亮 */
+/* 全站文本划词主题色微光高亮 */
 ::selection {
-  background-color: color-mix(in srgb, var(--theme-color-1) 35%, transparent) !important;
+  background-color: color-mix(in srgb, var(--theme-color-1) 40%, transparent) !important;
   color: var(--text-color-main) !important;
 }
 
 /* ==========================================================================
-   2. 标题与文字排版 (Typography & Headings)
+   2. 标题排版与灵动星芒 (Typography & Shimmering Stars)
    ========================================================================== */
 
-/* 标题装饰 */
+/* 灵动呼吸星芒动画 */
+@keyframes st-star-shimmer {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px color-mix(in srgb, var(--theme-color-1) 80%, transparent));
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    filter: drop-shadow(0 0 8px var(--theme-color-2)) drop-shadow(0 0 14px var(--theme-color-1));
+    transform: scale(1.15) rotate(12deg);
+    opacity: 1;
+  }
+}
+
 .standoutHeader strong,
 #right-nav-panel h2,
 .drawer-content h3.margin0,
@@ -79,7 +99,7 @@
   font-size: calc(var(--mainFontSize) * 1.2);
   font-weight: 600;
   color: var(--text-color-main);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   white-space: nowrap;
   line-height: 2;
 }
@@ -97,14 +117,10 @@
   font-size: calc(var(--mainFontSize) * 1.3);
   text-shadow: none;
   padding-bottom: 0.5px;
-  margin-right: 4px;
+  margin-right: 6px;
   display: inline-block;
+  animation: st-star-shimmer 4s infinite ease-in-out;
   transition: transform var(--transition-normal);
-}
-
-.standoutHeader:hover strong::before,
-#right-nav-panel h2:hover::before {
-  transform: rotate(15deg) scale(1.1);
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -116,7 +132,7 @@
   }
 }
 
-/* 增加标题下横线 */
+/* 标题下划线 */
 .standoutHeader:not(h4),
 #rm_PinAndTabs,
 #top-settings-holder
@@ -134,12 +150,11 @@
   background-image: none;
   border-radius: 0;
   border: none;
-  border-bottom: 1px solid var(--ui-color-sec);
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-color-1) 25%, var(--ui-color-sec));
   margin-bottom: calc(var(--mainFontSize) * 0.4);
   padding-bottom: calc(var(--mainFontSize) * 0.2);
 }
 
-/* 修正标题没对齐的问题 */
 .drawer-content .alignItemsBaseline {
   align-items: center !important;
 }
@@ -156,44 +171,41 @@
 }
 
 /* ==========================================================================
-   3. 抽屉菜单与折叠项 (Drawers & Accordions)
+   3. 抽屉菜单与折叠栏 (Drawers)
    ========================================================================== */
-
-/* 覆盖样式 */
 .inline-drawer-header,
 #extensions_settings .inline-drawer-toggle.inline-drawer-header,
 #extensions_settings2 .inline-drawer-toggle.inline-drawer-header,
 #top-settings-holder h4:not(#ai-config-button *):not(#rightNavHolder *) {
-  border-width: 0 0 0 3px !important;
+  border-width: 0 0 0 3.5px !important;
   border-color: transparent !important;
   border-style: solid;
   border-radius: 0;
   background-image: none !important;
-  padding-left: 7px;
+  padding-left: 9px;
   border-image: linear-gradient(
       to bottom,
-      transparent 20%,
-      var(--theme-color-1) 20%,
-      var(--theme-color-1) 80%,
-      transparent 80%
+      transparent 15%,
+      var(--theme-color-1) 15%,
+      var(--theme-color-1) 85%,
+      transparent 85%
     )
     1 100%;
   transition: padding-left var(--transition-fast), background-color var(--transition-fast);
 }
 
 .inline-drawer-header:hover {
-  padding-left: 10px;
-  background-color: color-mix(in srgb, var(--theme-color-1) 8%, transparent);
+  padding-left: 13px;
+  background-color: color-mix(in srgb, var(--theme-color-1) 10%, transparent);
 }
 
-/* 箭头图标 */
 .inline-drawer-icon {
   font-size: var(--icon-size);
   transition: transform var(--transition-normal), color var(--transition-fast);
 }
 
 /* ==========================================================================
-   4. 滚动条 (Custom Scrollbars)
+   4. 极客胶囊滚动条 (Pill Scrollbars)
    ========================================================================== */
 ::-webkit-scrollbar {
   width: var(--scroll-width);
@@ -205,11 +217,11 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: color-mix(in srgb, var(--theme-color-1) 50%, transparent);
+  background-color: color-mix(in srgb, var(--theme-color-1) 45%, transparent);
   border-radius: 999px;
   box-shadow: none;
   border: 0;
-  transition: background-color var(--transition-fast);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -221,17 +233,15 @@
 }
 
 /* ==========================================================================
-   5. 表单控件 (Form Controls: Inputs, Buttons, Selects)
+   5. 表单控件与交互按键 (Form Controls & Buttons)
    ========================================================================== */
-
-/* 输入框与文本域 */
 input[type="text"],
 input[type="number"],
 input[type="switch"],
 input:not([type]),
 textarea:not([type="search"]) {
   background-color: var(--ui-color-sec) !important;
-  border: 1px solid var(--ui-color-sec) !important;
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 15%, var(--ui-color-sec)) !important;
   border-radius: var(--border-radius-small);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
@@ -242,7 +252,7 @@ input[type="switch"]:focus,
 input:not([type]):focus,
 textarea:not([type="search"]):focus {
   border: 1px solid var(--theme-color-1) !important;
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-color-1) 25%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-color-1) 25%, transparent);
   outline: none;
 }
 
@@ -261,15 +271,19 @@ textarea[type="search"] {
 
 .text_pole:not(.objective-task) {
   background-color: var(--ui-color-sec);
-  border: none;
+  border: 1px solid transparent;
   border-radius: var(--border-radius-small);
-  transition: border-color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
-/* 按键与微动效 */
+.text_pole:not(.objective-task):focus {
+  border-color: var(--theme-color-1);
+}
+
+/* 按钮微动效与触觉反馈 */
 .menu_button:not(.mes_edit_buttons *) {
   background-color: var(--ui-color-sec);
-  border: 1px solid var(--ui-color-sec);
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 18%, var(--ui-color-sec));
   border-radius: var(--border-radius-small);
   color: var(--text-color-main);
   transition: all var(--transition-fast);
@@ -277,21 +291,20 @@ textarea[type="search"] {
 }
 
 .menu_button:not(.mes_edit_buttons *):hover {
-  border-color: color-mix(in srgb, var(--theme-color-1) 60%, transparent);
-  background-color: color-mix(in srgb, var(--theme-color-1) 15%, var(--ui-color-sec));
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--theme-color-1) 20%, transparent);
-  transform: translateY(-1px);
+  border-color: var(--theme-color-1);
+  background-color: color-mix(in srgb, var(--theme-color-1) 18%, var(--ui-color-sec));
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--theme-color-1) 22%, transparent);
+  transform: translateY(-1.5px);
 }
 
 .menu_button:not(.mes_edit_buttons *):active {
-  transform: scale(0.97);
+  transform: scale(0.96);
 }
 
 .menu_button_icon i {
-  font-size: calc(var(--icon-size) * 0.8);
+  font-size: calc(var(--icon-size) * 0.85);
 }
 
-/* 危险与警示操作按键 */
 #delete_button,
 #dialogue_del_mes_ok,
 #dialogue_popup_ok,
@@ -312,7 +325,8 @@ textarea[type="search"] {
 #dialogue_popup_ok:hover,
 .red_button:hover {
   filter: brightness(1.15);
-  box-shadow: 0 2px 10px rgba(220, 38, 38, 0.4);
+  box-shadow: 0 3px 12px rgba(220, 38, 38, 0.4);
+  transform: translateY(-1px);
 }
 
 #openai_api-presets .title_restorable.standoutHeader .flex-container.gap3px {
@@ -326,7 +340,6 @@ textarea[type="search"] {
   margin: 5px 0;
 }
 
-/* 去除冗余阴影与纯净化 */
 .mes_button,
 .mes_edit_buttons,
 #completion_prompt_manager
@@ -343,19 +356,20 @@ textarea[type="search"] {
   text-shadow: none !important;
 }
 
-/* 下拉框 */
+/* 下拉框与选项 */
 select {
   background-color: var(--ui-color-sec) !important;
   color: var(--text-color-main);
-  border: 1px solid transparent !important;
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 20%, transparent) !important;
   border-radius: var(--border-radius-small);
   margin: calc(var(--mainFontSize) * 0.3) 0 !important;
-  padding: 4px 8px;
-  transition: border-color var(--transition-fast);
+  padding: 5px 9px;
+  transition: all var(--transition-fast);
 }
 
 select:focus {
   border-color: var(--theme-color-1) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-color-1) 25%, transparent);
   outline: none;
 }
 
@@ -387,13 +401,13 @@ input[type="checkbox"] {
   box-shadow: 0 0 0 1px var(--text-color-sec);
   transform: translateY(0);
   margin-left: 1px;
-  border-radius: 3px;
+  border-radius: 4px;
   transition: all var(--transition-fast);
   cursor: pointer;
 }
 
 input[type="checkbox"]:hover {
-  box-shadow: 0 0 0 1.5px var(--theme-color-1);
+  box-shadow: 0 0 0 1.8px var(--theme-color-1);
 }
 
 input[type="checkbox"]::before {
@@ -431,9 +445,9 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 0 5px
-    color-mix(in srgb, var(--theme-color-1) 50%, transparent);
+  transform: scale(1.25);
+  box-shadow: 0 0 0 6px
+    color-mix(in srgb, var(--theme-color-1) 55%, transparent);
 }
 
 .neo-range-slider {
@@ -441,7 +455,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 /* ==========================================================================
-   6. 基础容器与弹窗 (Panels & Popups)
+   6. 容器布局与弹窗 (Panels & Windows)
    ========================================================================== */
 #left-nav-panel,
 #right-nav-panel,
@@ -484,7 +498,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
   }
 }
 
-/* 列表与菜单选项 */
 .list-group,
 .options-content {
   border: none;
@@ -501,7 +514,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
   width: auto;
 }
 
-/* 锁定图标 */
 #rm_button_characters,
 #rm_button_panel_pin_div,
 #lm_button_panel_pin_div,
@@ -509,20 +521,19 @@ input[type="range"]::-webkit-slider-thumb:hover {
   font-size: var(--icon-size);
 }
 
-/* 头像基础 */
 .avatar img,
 body.big-avatars .avatar img {
   box-shadow: none;
   border: none;
 }
 
-/* 代码块与高亮 */
+/* 代码块轻奢化 */
 code {
   margin: 0;
-  border: 1px solid color-mix(in srgb, var(--theme-color-1) 20%, transparent);
-  background-color: var(--code-color);
-  border-radius: 4px;
-  padding: 0.1em 0.35em;
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 25%, transparent);
+  background-color: color-mix(in srgb, var(--code-color) 85%, transparent);
+  border-radius: 5px;
+  padding: 0.15em 0.4em;
   font-family: var(--monospaceFont, monospace);
 }
 
@@ -535,7 +546,8 @@ body[data-stscript-style] .hljs.language-stscript,
 .hljs {
   background: var(--code-color);
   border-radius: var(--border-radius-small);
-  border: 1px solid color-mix(in srgb, var(--theme-color-1) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 20%, transparent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .custom-mermaid {
@@ -544,22 +556,22 @@ body[data-stscript-style] .hljs.language-stscript,
   border: 1px solid color-mix(in srgb, var(--theme-color-1) 20%, transparent);
 }
 
-/* 引用块美化 */
 blockquote {
-  border-left: 3px solid transparent;
+  border-left: 3.5px solid transparent;
   border-image: var(--gradient-main) 1 100%;
-  padding-left: 12px;
-  margin: 8px 0;
+  padding: 6px 14px;
+  margin: 10px 0;
+  background: color-mix(in srgb, var(--ui-color-sec) 45%, transparent);
+  border-radius: 0 var(--border-radius-small) var(--border-radius-small) 0;
   color: var(--text-color-sec);
 }
 
-/* 折叠框标题 */
 .standoutHeader.inline-drawer-header {
   padding: 5px 0;
 }
 
 /* ==========================================================================
-   7. 顶栏与通用扩展界面 (Top Bar & Header Drawers)
+   7. 顶栏与全域抽屉 (Top Bar & Drawers)
    ========================================================================== */
 body.no-blur #top-bar,
 #top-bar {
@@ -574,7 +586,8 @@ body.waifuMode #top-bar {
 
 #top-settings-holder {
   top: var(--top-distance);
-  box-shadow: 0 2px 0 0 var(--top-bar-underline-color);
+  box-shadow: 0 2px 10px -2px color-mix(in srgb, var(--top-bar-underline-color) 70%, transparent),
+              0 2px 0 0 var(--top-bar-underline-color);
 }
 
 #top-settings-holder > :first-child {
@@ -599,7 +612,6 @@ body.waifuMode #top-bar {
   border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
 }
 
-/* iOS / iPad 响应式适配 */
 @supports (-webkit-touch-callout: none) {
   .drawer-content:not(#left-nav-panel):not(#right-nav-panel) {
     max-width: 100dvw;
@@ -631,8 +643,8 @@ body.waifuMode #top-bar {
 }
 
 .drawer-icon {
-  opacity: 0.35;
-  font-size: calc(var(--icon-size) * 1.1);
+  opacity: 0.4;
+  font-size: calc(var(--icon-size) * 1.12);
   text-shadow: none !important;
   transition: opacity var(--transition-fast), transform var(--transition-fast);
   cursor: pointer;
@@ -645,16 +657,15 @@ body.waifuMode #top-bar {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  transform: translateY(-1px);
+  transform: translateY(-1.5px);
 }
 
 .drawer-icon:active {
   transform: scale(0.92);
 }
 
-/* 抽屉底部装饰 */
 .drawer-content {
-  box-shadow: 0 2px 0 var(--top-bar-underline-color);
+  box-shadow: 0 3px 12px color-mix(in srgb, var(--top-bar-underline-color) 40%, transparent);
   border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
 }
 
@@ -678,7 +689,7 @@ body.waifuMode #top-bar {
 }
 
 /* ==========================================================================
-   8. 聊天核心流与消息气泡 (Chat Stream & Messages)
+   8. 核心聊天流与【独家轻奢微光卡片气泡】(Chat Stream & Ambient Bubble Cards)
    ========================================================================== */
 #sheld {
   top: calc(var(--topBarBlockSize) + var(--top-distance));
@@ -690,7 +701,7 @@ body.waifuMode #top-bar {
   scrollbar-gutter: stable;
   align-items: center;
   max-height: calc(100dvh - var(--topBarBlockSize) - 20px) !important;
-  padding: calc(var(--scroll-width) + 4px) 0 var(--scroll-width)
+  padding: calc(var(--scroll-width) + 6px) 0 var(--scroll-width)
     var(--scroll-width);
   border-radius: 0 0 var(--box-border-radius) var(--box-border-radius);
   background-color: var(--chat-background-color);
@@ -711,20 +722,42 @@ body.waifuMode #top-bar {
 }
 
 .mesAvatarWrapper .avatar {
-  margin: calc(var(--mainFontSize)) 0 calc(var(--mainFontSize) * 0.4) 0;
+  margin: calc(var(--mainFontSize) * 1.1) 0 calc(var(--mainFontSize) * 0.4) 0;
 }
 
+/* 【独家特色】：消息计时器、Token数、ID 优雅胶囊标签化 */
 .mesIDDisplay,
 .mes_timer,
 .tokenCounterDisplay {
-  display: contents;
+  display: inline-flex !important;
+  align-items: center;
+  padding: 1.5px 7px;
+  margin: 2px 3px;
+  border-radius: 999px;
+  font-size: calc(var(--mainFontSize) * 0.72);
+  font-family: var(--monospaceFont, monospace);
+  background: color-mix(in srgb, var(--ui-color-sec) 75%, transparent);
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 18%, transparent);
   color: var(--text-color-sec);
+  letter-spacing: 0.02em;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all var(--transition-fast);
+}
+
+.mesIDDisplay:hover,
+.mes_timer:hover,
+.tokenCounterDisplay:hover {
+  border-color: var(--theme-color-1);
+  color: var(--text-color-main);
+  background: color-mix(in srgb, var(--theme-color-1) 15%, var(--ui-color-sec));
 }
 
 #chat .ch_name {
   position: relative;
   align-items: flex-end;
   padding: calc(var(--mainFontSize) * 0.8) 0;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
 #chat .ch_name::after {
@@ -734,22 +767,33 @@ body.waifuMode #top-bar {
   left: 0;
   width: 100%;
   height: 1px;
-  background-color: var(--text-color-sec);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--theme-color-1) 50%, transparent),
+    transparent
+  );
 }
 
+/* 【独家特色】：轻奢圆角浮空卡片模式（告别原本呆板的直角平铺） */
 .mes {
   width: var(--mes-width);
+  margin: 8px auto !important;
+  border-radius: var(--bubble-border-radius) !important;
   flex-direction: column;
   align-items: center;
-  border: none !important;
+  border: 1px solid color-mix(in srgb, var(--ui-color-sec) 70%, transparent) !important;
   background-color: var(--ui-color-main) !important;
-  margin: 0;
-  transition: background-color var(--transition-normal);
+  box-shadow: 0 4px 18px -3px rgba(0, 0, 0, 0.22);
+  transition: background-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-fast);
+}
+
+.mes:hover {
+  box-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.3);
 }
 
 .mes_text {
   padding: calc(var(--mainFontSize) * 0.8) 0 0 0;
-  line-height: 1.68;
+  line-height: 1.72;
 }
 
 .mes_block {
@@ -773,45 +817,57 @@ div[is_user="false"].last_mes .mes_block {
   margin: 0 var(--spacing-long) 0 0;
 }
 
-/* 用户与 AI 消息气泡底色 */
-div[is_user="true"] {
-  background-color: var(--user-color) !important;
+/* 【独家特色】：AI 与用户专属双色环境氛围侧边饰条 */
+div[is_user="false"].mes {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--char-color) 92%, var(--theme-color-1) 8%),
+    var(--char-color)
+  ) !important;
+  border-left: 3.5px solid var(--theme-color-1) !important;
+  box-shadow: 0 4px 20px -3px color-mix(in srgb, var(--theme-color-1) 12%, transparent);
 }
 
-div[is_user="false"] {
-  background-color: var(--char-color) !important;
+div[is_user="true"].mes {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--user-color) 92%, var(--theme-color-2) 8%),
+    var(--user-color)
+  ) !important;
+  border-right: 3.5px solid var(--theme-color-2) !important;
+  box-shadow: 0 4px 20px -3px color-mix(in srgb, var(--theme-color-2) 12%, transparent);
 }
 
-/* 双色高级发光微光环 (Dual Glow Avatar Effect) */
+/* 双色发光光环算法增强 */
 .avatar img {
   border-radius: 50%;
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
 .avatar img:hover {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
 div[is_user="true"] .avatar img {
   box-shadow: 0 0 0 2px
-      color-mix(in srgb, var(--theme-color-2) 65%, transparent),
-    0 0 12px 2px color-mix(in srgb, var(--theme-color-1) 60%, transparent);
+      color-mix(in srgb, var(--theme-color-2) 75%, transparent),
+    0 0 14px 2px color-mix(in srgb, var(--theme-color-1) 60%, transparent);
 }
 
 div[is_user="true"] .avatar img:hover {
   box-shadow: 0 0 0 2.5px var(--theme-color-2),
-    0 0 18px 4px color-mix(in srgb, var(--theme-color-1) 75%, transparent);
+    0 0 20px 5px color-mix(in srgb, var(--theme-color-1) 80%, transparent);
 }
 
 div[is_user="false"] .avatar img {
   box-shadow: 0 0 0 2px
-      color-mix(in srgb, var(--theme-color-1) 65%, transparent),
-    0 0 12px 2px color-mix(in srgb, var(--theme-color-2) 60%, transparent);
+      color-mix(in srgb, var(--theme-color-1) 75%, transparent),
+    0 0 14px 2px color-mix(in srgb, var(--theme-color-2) 60%, transparent);
 }
 
 div[is_user="false"] .avatar img:hover {
   box-shadow: 0 0 0 2.5px var(--theme-color-1),
-    0 0 18px 4px color-mix(in srgb, var(--theme-color-2) 75%, transparent);
+    0 0 20px 5px color-mix(in srgb, var(--theme-color-2) 80%, transparent);
 }
 
 /* 滑动箭头与控制项 */
@@ -832,7 +888,7 @@ div[is_user="false"] .avatar img:hover {
   background-color: var(--crimson70a) !important;
 }
 
-/* 文档模式 */
+/* 文档模式兼容 */
 body.documentstyle #chat .ch_name::after {
   width: 0;
 }
@@ -869,24 +925,33 @@ body.waifuMode .zoomed_avatar {
   top: 70px;
 }
 
-/* 思考链/推理块 (Reasoning Block 深度强化) */
+/* 【独家特色】：深度思考舱 (Reasoning HUD 折叠舱设计) */
 .mes_reasoning_header {
-  margin: 0.8em 0 0.3em 0;
+  margin: 0.9em 0 0.3em 0;
   padding: 8px 14px;
-  background: color-mix(in srgb, var(--theme-color-1) 20%, var(--ui-color-sec));
-  border: 1px solid color-mix(in srgb, var(--theme-color-1) 45%, transparent);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--theme-color-1) 22%, var(--ui-color-sec)),
+    color-mix(in srgb, var(--theme-color-2) 14%, var(--ui-color-sec))
+  );
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 50%, transparent);
   border-radius: var(--border-radius-small);
   color: var(--text-color-main);
   font-weight: 500;
   cursor: pointer;
   transition: all var(--transition-fast);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .mes_reasoning_header:hover {
-  background: color-mix(in srgb, var(--theme-color-1) 32%, var(--ui-color-sec));
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--theme-color-1) 32%, var(--ui-color-sec)),
+    color-mix(in srgb, var(--theme-color-2) 20%, var(--ui-color-sec))
+  );
   border-color: var(--theme-color-1);
-  box-shadow: 0 3px 10px color-mix(in srgb, var(--theme-color-1) 20%, transparent);
+  box-shadow: 0 3px 12px color-mix(in srgb, var(--theme-color-1) 25%, transparent);
+  transform: translateY(-1px);
 }
 
 .mes_reasoning_header span::before {
@@ -895,7 +960,7 @@ body.waifuMode .zoomed_avatar {
   text-shadow: none;
   font-size: var(--mainFontSize);
   line-height: 1;
-  margin-right: 5px;
+  margin-right: 6px;
   background: var(--gradient-main);
   -webkit-background-clip: text;
   background-clip: text;
@@ -904,7 +969,7 @@ body.waifuMode .zoomed_avatar {
 }
 
 .mes_reasoning_details .mes_reasoning_arrow {
-  right: 12px;
+  right: 14px;
   font-size: calc(var(--mainFontSize) * 0.75) !important;
   transition: transform var(--transition-fast);
 }
@@ -912,12 +977,13 @@ body.waifuMode .zoomed_avatar {
 .mes_reasoning {
   border-left: 2.5px solid var(--theme-color-1);
   border-radius: 0 var(--border-radius-small) var(--border-radius-small) 0;
-  background: color-mix(in srgb, var(--ui-color-main) 60%, transparent);
+  background: color-mix(in srgb, var(--ui-color-main) 65%, transparent);
   margin: 6px 0 12px 6px;
-  padding: 10px 14px;
+  padding: 10px 15px;
   color: var(--text-color-sec);
   font-size: calc(var(--mainFontSize) * 0.95);
-  line-height: 1.6;
+  line-height: 1.65;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* ==========================================================================
@@ -994,10 +1060,11 @@ label[for="openai_image_inlining"] + div,
 #completion_prompt_manager
   #completion_prompt_manager_list
   li.completion_prompt_manager_prompt:focus {
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
   border-color: var(--theme-color-1);
-  background-color: color-mix(in srgb, var(--theme-color-1) 15%, transparent);
+  background-color: color-mix(in srgb, var(--theme-color-1) 16%, transparent);
   outline: none;
+  transform: translateY(-1px);
 }
 
 #completion_prompt_manager
@@ -1094,13 +1161,12 @@ span.select2.select2-container .select2-selection__choice__remove,
   }
 }
 
-/* 用户管理器 */
 .avatar-container.selected {
   border-color: var(--theme-color-2);
 }
 
 /* ==========================================================================
-   11. 背景图库与用户设置 (Backgrounds & User Settings)
+   11. 背景图库与设置 (Backgrounds)
    ========================================================================== */
 #bg-header-fixed {
   padding: 0;
@@ -1212,7 +1278,6 @@ label[for="char-management-dropdown"] {
   transition: all var(--transition-fast);
 }
 
-/* 收藏区左右滑动条 */
 #HotSwapWrapper {
   overflow: hidden;
 }
@@ -1239,31 +1304,34 @@ body.big-avatars #HotSwapWrapper > div {
 }
 
 /* ==========================================================================
-   13. 底栏发送区与快捷回复 (Bottom Send Form & Quick Replies)
+   13. 【独家悬浮流光发送底栏】(Floating Island Send Form & QR Buttons)
    ========================================================================== */
 #form_sheld {
-  margin: var(--chat-send-spacing) auto var(--bottom-distance) auto;
-  padding-bottom: env(safe-area-inset-bottom, 0px); /* 兼容全面屏手势区 */
+  max-width: min(97%, 1150px);
+  margin: var(--chat-send-spacing) auto calc(var(--bottom-distance) + env(safe-area-inset-bottom, 0px)) auto !important;
 }
 
 body.no-blur #send_form,
 #send_form {
   background-color: color-mix(
     in srgb,
-    var(--theme-color-1) 16%,
-    var(--ui-color-main) 70%
+    var(--theme-color-1) 15%,
+    var(--ui-color-main) 75%
   ) !important;
-  border: 1px solid color-mix(in srgb, var(--theme-color-1) 22%, transparent);
-  border-radius: var(--box-border-radius);
-  backdrop-filter: none;
-  padding: 4px 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 30%, transparent) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(14px) !important;
+  padding: 5px 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25),
+              0 0 16px -2px color-mix(in srgb, var(--theme-color-1) 15%, transparent);
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-fast);
 }
 
 #send_form:focus-within {
-  border-color: color-mix(in srgb, var(--theme-color-1) 50%, transparent);
-  box-shadow: 0 4px 24px color-mix(in srgb, var(--theme-color-1) 20%, transparent);
+  border-color: var(--theme-color-1) !important;
+  box-shadow: 0 8px 34px rgba(0, 0, 0, 0.35),
+              0 0 24px 2px color-mix(in srgb, var(--theme-color-1) 32%, transparent);
+  transform: translateY(-1px);
 }
 
 #send_form textarea {
@@ -1271,25 +1339,30 @@ body.no-blur #send_form,
   border: none !important;
 }
 
-/* 修复：使用标准的 CSS 变量调用替代错误的 color() 函数 */
 #send_form textarea::placeholder {
   color: var(--text-color-sec) !important;
   opacity: 0.65;
 }
 
 #send_form .fa-solid {
-  font-size: calc(var(--icon-size) * 1.2);
+  font-size: calc(var(--icon-size) * 1.25);
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+#send_form .fa-solid:hover {
+  color: var(--theme-color-1);
+  transform: scale(1.1);
 }
 
 #leftSendForm > div:nth-child(2) {
   width: auto;
 }
 
-/* 快捷回复按钮 (QR Buttons) */
+/* 快捷回复按钮 (QR Buttons 悬浮微霓虹) */
 #qr--bar > .qr--buttons .qr--button,
 #qr--popout > .qr--body > .qr--buttons .qr--button {
-  background-color: color-mix(in srgb, var(--theme-color-1) 25%, transparent);
-  border: 1px solid color-mix(in srgb, var(--theme-color-1) 40%, transparent) !important;
+  background-color: color-mix(in srgb, var(--theme-color-1) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 45%, transparent) !important;
   border-radius: var(--border-radius-small) !important;
   font-size: calc(var(--mainFontSize) * 0.9);
   transition: all var(--transition-fast);
@@ -1300,17 +1373,17 @@ body.no-blur #send_form,
 #qr--popout > .qr--body > .qr--buttons .qr--button:hover {
   background-color: color-mix(
     in srgb,
-    var(--theme-color-1) 48%,
+    var(--theme-color-1) 50%,
     transparent
   ) !important;
   border-color: var(--theme-color-1) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px color-mix(in srgb, var(--theme-color-1) 25%, transparent);
+  transform: translateY(-1.5px);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--theme-color-1) 30%, transparent);
 }
 
 #qr--bar > .qr--buttons .qr--button:active,
 #qr--popout > .qr--body > .qr--buttons .qr--button:active {
-  transform: scale(0.96);
+  transform: scale(0.95);
 }
 
 #qr--popoutTrigger {
@@ -1324,13 +1397,13 @@ body.no-blur #send_form,
 }
 
 /* ==========================================================================
-   14. QR 编辑器与选区高亮 (QR Editor & Modal)
+   14. QR 编辑器与选区 (QR Editor & Selection)
    ========================================================================== */
 .popup:has(#qr--modalEditor) #qr--modal-message {
   color: var(--text-color-main) !important;
 }
 
 .popup:has(#qr--modalEditor) #qr--modal-message::selection {
-  background-color: color-mix(in srgb, var(--theme-color-1) 25%, transparent) !important;
+  background-color: color-mix(in srgb, var(--theme-color-1) 30%, transparent) !important;
   color: var(--text-color-main) !important;
 }
