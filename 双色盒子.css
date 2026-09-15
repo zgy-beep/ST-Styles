@@ -5,77 +5,71 @@
  * 许可协议：CC BY-NC-SA 4.0
  * 二改分享需注明原作者
  * 禁止任何形式的商用及商用目的的引流！
+ *
+ * 优化增强版：修复语法 Bug、清洗冗余代码、增强全局触觉动效、升级双色光效与现代化酒馆特性
  */
 
-/* ！！！---全局---！！！ */
-/* 主题色配置 */
+/* ==========================================================================
+   1. 全局变量与设计系统 (Design System Variables)
+   ========================================================================== */
 :root {
-  --theme-color-1: var(--SmartThemeQuoteColor);
-  /* 对应引用文本 */
-  --theme-color-2: var(--SmartThemeUnderlineColor);
-  /* 对应下划线 */
-  --ui-color-main: var(--SmartThemeBlurTintColor);
-  /* 对应UI背景 */
+  /* --- 核心主题色体系 --- */
+  --theme-color-1: var(--SmartThemeQuoteColor);           /* 主色1（对应引用文本） */
+  --theme-color-2: var(--SmartThemeUnderlineColor);       /* 主色2（对应下划线） */
+  --ui-color-main: var(--SmartThemeBlurTintColor);        /* 对应UI背景 */
   --ui-color-sec: color-mix(
     in srgb,
     var(--ui-color-main) 88%,
     var(--text-color-main)
-  );
-  /* 自适应UI次级颜色 */
-  --top-bar-color: var(--SmartThemeBorderColor);
-  /* 顶栏颜色 */
-  --top-bar-underline-color: var(--theme-color-1);
-  /* 顶栏下边缘颜色 */
-  --top-bar-icon-color: var(--text-color-main);
-  /* 顶栏图标颜色 */
-  --chat-background-color: var(--SmartThemeChatTintColor);
-  /* 对应聊天背景 */
-  --text-color-main: var(--SmartThemeBodyColor);
-  /* 对应主要文本 */
-  --text-color-sec: var(--SmartThemeEmColor);
-  /* 对应斜体文本 */
-  --user-color: var(--SmartThemeUserMesBlurTintColor);
-  /* 对应用户消息模糊色调 */
-  --char-color: var(--SmartThemeBotMesBlurTintColor);
-  /* 对应AI消息模糊色调 */
-  --code-color: var(--SmartThemeShadowColor);
-  /* 对应阴影颜色 */
+  );                                                      /* 自适应UI次级颜色 */
+  --top-bar-color: var(--SmartThemeBorderColor);          /* 顶栏颜色 */
+  --top-bar-underline-color: var(--theme-color-1);        /* 顶栏下边缘颜色 */
+  --top-bar-icon-color: var(--text-color-main);           /* 顶栏图标颜色 */
+  --chat-background-color: var(--SmartThemeChatTintColor);/* 对应聊天背景 */
+  --text-color-main: var(--SmartThemeBodyColor);          /* 对应主要文本 */
+  --text-color-sec: var(--SmartThemeEmColor);             /* 对应斜体/次要文本 */
+  --user-color: var(--SmartThemeUserMesBlurTintColor);    /* 对应用户消息模糊色调 */
+  --char-color: var(--SmartThemeBotMesBlurTintColor);     /* 对应AI消息模糊色调 */
+  --code-color: var(--SmartThemeShadowColor);             /* 对应代码块与阴影颜色 */
+
+  /* --- 渐变与动态混合色 --- */
   --gradient-main: linear-gradient(
     135deg,
     var(--theme-color-1) 30%,
     color-mix(in srgb, var(--theme-color-1) 50%, var(--theme-color-2) 50%) 50%,
     var(--theme-color-2) 70%
   );
-  /* 主题渐变 */
-}
 
-:root {
-  --mes-width: 100%;
-  /* 此百分比调整聊天气泡与整体聊天界面的距离 */
-  --mes-block-width: 98%;
-  /* 此百分比调整聊天记录文字与气泡左右边框的距离 */
-  --box-border-radius: 0px;
-  /* 所有盒子的圆角大小 */
-  --top-distance: 0px;
-  /* 顶栏与上边沿的距离 */
-  --bottom-distance: 0px;
-  /* 底栏与下边沿的距离 */
-  --chat-send-spacing: 0px;
-  /* 聊天界面与发送框的距离 */
-  --leftRight-chat-spacing: 0px;
-  /* 聊天界面与左右边沿的距离，电脑端专供 */
-  --scroll-width: 5px;
-  /* 滚动条宽度 */
-  --icon-size: var(--mainFontSize);
-  /* 图标大小 */
-  --border-radius-small: 5px;
+  /* --- 尺寸与布局间隙 --- */
+  --mes-width: 100%;                                      /* 聊天气泡与整体聊天界面距离 */
+  --mes-block-width: 98%;                                 /* 聊天记录文字与气泡左右边框距离 */
+  --box-border-radius: 0px;                               /* 所有盒子的圆角大小 */
+  --top-distance: 0px;                                    /* 顶栏与上边沿距离 */
+  --bottom-distance: 0px;                                 /* 底栏与下边沿距离 */
+  --chat-send-spacing: 0px;                               /* 聊天界面与发送框距离 */
+  --leftRight-chat-spacing: 0px;                          /* 聊天界面与左右边沿距离（电脑端） */
+  --scroll-width: 6px;                                    /* 滚动条宽度 */
+  --icon-size: var(--mainFontSize);                       /* 图标基准尺寸 */
+  --border-radius-small: 6px;
   --border-radius-medium: 10px;
   --spacing-long: 10px;
   --spacing-short: 5px;
-  --topBarIconSize: calc(var(--icon-size) * 2);
+
+  /* --- 交互微动效时间曲线 (Micro-interaction Transitions) --- */
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ---标题--- */
+/* 全局文本划词主题高亮 */
+::selection {
+  background-color: color-mix(in srgb, var(--theme-color-1) 35%, transparent) !important;
+  color: var(--text-color-main) !important;
+}
+
+/* ==========================================================================
+   2. 标题与文字排版 (Typography & Headings)
+   ========================================================================== */
 
 /* 标题装饰 */
 .standoutHeader strong,
@@ -103,6 +97,14 @@
   font-size: calc(var(--mainFontSize) * 1.3);
   text-shadow: none;
   padding-bottom: 0.5px;
+  margin-right: 4px;
+  display: inline-block;
+  transition: transform var(--transition-normal);
+}
+
+.standoutHeader:hover strong::before,
+#right-nav-panel h2:hover::before {
+  transform: rotate(15deg) scale(1.1);
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -110,7 +112,7 @@
   #right-nav-panel h2::before,
   .drawer-content h3.margin0::before,
   .popup h3:not(dialog *)::before {
-    font-size: calc(var(--mainFontSize) * 1.7);
+    font-size: calc(var(--mainFontSize) * 1.4);
   }
 }
 
@@ -153,7 +155,10 @@
   margin-right: calc(var(--mainFontSize) * 0.4);
 }
 
-/* ---抽屉--- */
+/* ==========================================================================
+   3. 抽屉菜单与折叠项 (Drawers & Accordions)
+   ========================================================================== */
+
 /* 覆盖样式 */
 .inline-drawer-header,
 #extensions_settings .inline-drawer-toggle.inline-drawer-header,
@@ -167,25 +172,31 @@
   padding-left: 7px;
   border-image: linear-gradient(
       to bottom,
-      transparent 25%,
-      var(--theme-color-1) 25%,
-      var(--theme-color-1) 75%,
-      transparent 75%
+      transparent 20%,
+      var(--theme-color-1) 20%,
+      var(--theme-color-1) 80%,
+      transparent 80%
     )
     1 100%;
+  transition: padding-left var(--transition-fast), background-color var(--transition-fast);
 }
 
-/* 缩小箭头图标 */
+.inline-drawer-header:hover {
+  padding-left: 10px;
+  background-color: color-mix(in srgb, var(--theme-color-1) 8%, transparent);
+}
+
+/* 箭头图标 */
 .inline-drawer-icon {
   font-size: var(--icon-size);
+  transition: transform var(--transition-normal), color var(--transition-fast);
 }
 
-/* ---滚动条--- */
+/* ==========================================================================
+   4. 滚动条 (Custom Scrollbars)
+   ========================================================================== */
 ::-webkit-scrollbar {
   width: var(--scroll-width);
-}
-
-::-webkit-scrollbar:horizontal {
   height: var(--scroll-width);
 }
 
@@ -193,14 +204,27 @@
   background: transparent;
 }
 
-::-webkit-scrollbar-thumb:vertical,
-::-webkit-scrollbar-thumb:horizontal {
-  background-color: color-mix(in srgb, var(--theme-color-1) 70%, transparent);
+::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--theme-color-1) 50%, transparent);
+  border-radius: 999px;
   box-shadow: none;
   border: 0;
+  transition: background-color var(--transition-fast);
 }
 
-/* ---输入框--- */
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--theme-color-1);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--theme-color-2);
+}
+
+/* ==========================================================================
+   5. 表单控件 (Form Controls: Inputs, Buttons, Selects)
+   ========================================================================== */
+
+/* 输入框与文本域 */
 input[type="text"],
 input[type="number"],
 input[type="switch"],
@@ -208,6 +232,8 @@ input:not([type]),
 textarea:not([type="search"]) {
   background-color: var(--ui-color-sec) !important;
   border: 1px solid var(--ui-color-sec) !important;
+  border-radius: var(--border-radius-small);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
 
 input[type="text"]:focus,
@@ -216,6 +242,8 @@ input[type="switch"]:focus,
 input:not([type]):focus,
 textarea:not([type="search"]):focus {
   border: 1px solid var(--theme-color-1) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-color-1) 25%, transparent);
+  outline: none;
 }
 
 textarea[type="search"] {
@@ -234,19 +262,36 @@ textarea[type="search"] {
 .text_pole:not(.objective-task) {
   background-color: var(--ui-color-sec);
   border: none;
+  border-radius: var(--border-radius-small);
+  transition: border-color var(--transition-fast);
 }
 
-/* ---按键--- */
+/* 按键与微动效 */
 .menu_button:not(.mes_edit_buttons *) {
   background-color: var(--ui-color-sec);
-  border-color: var(--ui-color-sec);
+  border: 1px solid var(--ui-color-sec);
+  border-radius: var(--border-radius-small);
   color: var(--text-color-main);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.menu_button:not(.mes_edit_buttons *):hover {
+  border-color: color-mix(in srgb, var(--theme-color-1) 60%, transparent);
+  background-color: color-mix(in srgb, var(--theme-color-1) 15%, var(--ui-color-sec));
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--theme-color-1) 20%, transparent);
+  transform: translateY(-1px);
+}
+
+.menu_button:not(.mes_edit_buttons *):active {
+  transform: scale(0.97);
 }
 
 .menu_button_icon i {
   font-size: calc(var(--icon-size) * 0.8);
 }
 
+/* 危险与警示操作按键 */
 #delete_button,
 #dialogue_del_mes_ok,
 #dialogue_popup_ok,
@@ -258,6 +303,16 @@ textarea[type="search"] {
 .red_button {
   background-color: var(--crimson70a) !important;
   color: var(--white100) !important;
+  border-radius: var(--border-radius-small);
+  transition: all var(--transition-fast);
+}
+
+#delete_button:hover,
+#dialogue_del_mes_ok:hover,
+#dialogue_popup_ok:hover,
+.red_button:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 2px 10px rgba(220, 38, 38, 0.4);
 }
 
 #openai_api-presets .title_restorable.standoutHeader .flex-container.gap3px {
@@ -271,7 +326,7 @@ textarea[type="search"] {
   margin: 5px 0;
 }
 
-/* 去除阴影 */
+/* 去除冗余阴影与纯净化 */
 .mes_button,
 .mes_edit_buttons,
 #completion_prompt_manager
@@ -288,12 +343,20 @@ textarea[type="search"] {
   text-shadow: none !important;
 }
 
-/* ---下拉框--- */
+/* 下拉框 */
 select {
   background-color: var(--ui-color-sec) !important;
   color: var(--text-color-main);
-  border: none !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--border-radius-small);
   margin: calc(var(--mainFontSize) * 0.3) 0 !important;
+  padding: 4px 8px;
+  transition: border-color var(--transition-fast);
+}
+
+select:focus {
+  border-color: var(--theme-color-1) !important;
+  outline: none;
 }
 
 select option:not(:checked) {
@@ -313,10 +376,10 @@ select option {
   color: var(--theme-color-1) !important;
 }
 
-/* ---勾选框--- */
+/* 勾选框 */
 input[type="checkbox"] {
-  width: calc(var(--mainFontSize) * 0.9);
-  height: calc(var(--mainFontSize) * 0.9);
+  width: calc(var(--mainFontSize) * 0.95);
+  height: calc(var(--mainFontSize) * 0.95);
   border: none;
   outline: none;
   background-color: var(--ui-color-main);
@@ -324,6 +387,13 @@ input[type="checkbox"] {
   box-shadow: 0 0 0 1px var(--text-color-sec);
   transform: translateY(0);
   margin-left: 1px;
+  border-radius: 3px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+input[type="checkbox"]:hover {
+  box-shadow: 0 0 0 1.5px var(--theme-color-1);
 }
 
 input[type="checkbox"]::before {
@@ -334,10 +404,12 @@ input[type="checkbox"].del_checkbox {
   margin-right: 0;
 }
 
-/* ---滑动条--- */
+/* 滑动条 */
 input[type="range"] {
   box-shadow: none;
   background-color: var(--ui-color-sec) !important;
+  border-radius: 999px;
+  transition: background-color var(--transition-fast);
 }
 
 input[type="range"]:hover {
@@ -350,18 +422,27 @@ input[type="range"]:hover {
 
 input[type="range"]::-webkit-slider-thumb {
   box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--theme-color-1) 50%, transparent);
+    color-mix(in srgb, var(--theme-color-1) 40%, transparent);
   background-color: var(--theme-color-1);
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 5px
+    color-mix(in srgb, var(--theme-color-1) 50%, transparent);
 }
 
 .neo-range-slider {
   box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* ---盒子--- */
-/* 统一样式 */
+/* ==========================================================================
+   6. 基础容器与弹窗 (Panels & Popups)
+   ========================================================================== */
 #left-nav-panel,
 #right-nav-panel,
 #character_popup,
@@ -397,13 +478,13 @@ input[type="range"]::-webkit-slider-thumb {
 
   #left-nav-panel,
   #right-nav-panel {
-    height: calc(100dvh - 45px) !important;
-    max-height: calc(100dvh - var(--topBarBlockSize)) !important;
+    height: calc(100dvh - var(--topBarBlockSize, 45px)) !important;
+    max-height: calc(100dvh - var(--topBarBlockSize, 45px)) !important;
     border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
   }
 }
 
-/* ---列表--- */
+/* 列表与菜单选项 */
 .list-group,
 .options-content {
   border: none;
@@ -416,12 +497,11 @@ input[type="range"]::-webkit-slider-thumb {
   padding: 0;
 }
 
-/* ---图标--- */
 .fa-fw:not(#qr--modal-icon):not(#extensionsMenu *):not(#options *) {
   width: auto;
 }
 
-/* 缩小锁定图标 */
+/* 锁定图标 */
 #rm_button_characters,
 #rm_button_panel_pin_div,
 #lm_button_panel_pin_div,
@@ -429,45 +509,58 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: var(--icon-size);
 }
 
-/* ---头像--- */
+/* 头像基础 */
 .avatar img,
 body.big-avatars .avatar img {
   box-shadow: none;
   border: none;
 }
 
-/* ---代码块--- */
+/* 代码块与高亮 */
 code {
   margin: 0;
-  border: none;
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 20%, transparent);
   background-color: var(--code-color);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  font-family: var(--monospaceFont, monospace);
+}
+
+pre code {
+  border: none;
+  padding: 0;
 }
 
 body[data-stscript-style] .hljs.language-stscript,
 .hljs {
   background: var(--code-color);
+  border-radius: var(--border-radius-small);
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 18%, transparent);
 }
 
 .custom-mermaid {
   background-color: var(--code-color);
+  border-radius: var(--border-radius-small);
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 20%, transparent);
+}
+
+/* 引用块美化 */
+blockquote {
+  border-left: 3px solid transparent;
+  border-image: var(--gradient-main) 1 100%;
+  padding-left: 12px;
+  margin: 8px 0;
+  color: var(--text-color-sec);
 }
 
 /* 折叠框标题 */
 .standoutHeader.inline-drawer-header {
   padding: 5px 0;
 }
-/*
- * 作者：KAKAA | Discord: @rech0_viixi
- * 发布社区：类脑ΟΔΥΣΣΕΙΑ（https://discord.com/channels/1134557553011998840/1340273995018141757）
- * 发布社区：旅程ΟΡΙΖΟΝΤΑΣ（https://discord.com/channels/1291925535324110879/1374963777115656214）
- * 许可协议：CC BY-NC-SA 4.0
- * 二改分享需注明原作者
- * 禁止任何形式的商用及商用目的的引流！
- */
 
-/* ！！！---局部---！！！ */
-
-/* ---顶栏与通用扩展界面--- */
+/* ==========================================================================
+   7. 顶栏与通用扩展界面 (Top Bar & Header Drawers)
+   ========================================================================== */
 body.no-blur #top-bar,
 #top-bar {
   border-radius: var(--border-radius-small) var(--border-radius-small) 0 0;
@@ -495,6 +588,7 @@ body.waifuMode #top-bar {
 .drawer {
   color: var(--top-bar-icon-color);
   background-color: var(--top-bar-color);
+  transition: background-color var(--transition-fast);
 }
 
 .drawer:has(.openDrawer) {
@@ -505,15 +599,13 @@ body.waifuMode #top-bar {
   border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
 }
 
-/* IOS 适配 */
+/* iOS / iPad 响应式适配 */
 @supports (-webkit-touch-callout: none) {
   .drawer-content:not(#left-nav-panel):not(#right-nav-panel) {
     max-width: 100dvw;
     top: var(--topBarBlockSize);
   }
-}
-/* IPAD 适配 */
-@supports (-webkit-touch-callout: none) {
+
   @media screen and (min-width: 1000px) {
     #character_popup,
     #world_popup,
@@ -539,9 +631,11 @@ body.waifuMode #top-bar {
 }
 
 .drawer-icon {
-  opacity: 0.3;
+  opacity: 0.35;
   font-size: calc(var(--icon-size) * 1.1);
   text-shadow: none !important;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  cursor: pointer;
 }
 
 .drawer-icon:hover,
@@ -551,15 +645,19 @@ body.waifuMode #top-bar {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  transform: translateY(-1px);
 }
 
-/* border-bottom在背景图库会有样式问题 */
+.drawer-icon:active {
+  transform: scale(0.92);
+}
+
+/* 抽屉底部装饰 */
 .drawer-content {
   box-shadow: 0 2px 0 var(--top-bar-underline-color);
   border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
 }
 
-/* 抽屉小标题 */
 .drawer-content h4 {
   font-weight: 600;
 }
@@ -568,26 +666,28 @@ body.waifuMode #top-bar {
   flex-wrap: nowrap;
 }
 
-/* 调整竖排间距 */
 #user-settings-block-content,
 #AdvancedFormatting .flex-container.spaceEvenly {
   gap: 10px;
 }
 
-/* 反代警告 */
 .reverse_proxy_warning {
   border: 1px solid var(--ui-color-sec) !important;
   background-color: transparent !important;
+  border-radius: var(--border-radius-small);
 }
 
-/* ---聊天界面--- */
+/* ==========================================================================
+   8. 聊天核心流与消息气泡 (Chat Stream & Messages)
+   ========================================================================== */
 #sheld {
   top: calc(var(--topBarBlockSize) + var(--top-distance));
   height: calc(100dvh - var(--topBarBlockSize) - var(--top-distance) - 1px);
 }
 
 #chat {
-  overflow-y: scroll;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
   align-items: center;
   max-height: calc(100dvh - var(--topBarBlockSize) - 20px) !important;
   padding: calc(var(--scroll-width) + 4px) 0 var(--scroll-width)
@@ -644,10 +744,12 @@ body.waifuMode #top-bar {
   border: none !important;
   background-color: var(--ui-color-main) !important;
   margin: 0;
+  transition: background-color var(--transition-normal);
 }
 
 .mes_text {
   padding: calc(var(--mainFontSize) * 0.8) 0 0 0;
+  line-height: 1.68;
 }
 
 .mes_block {
@@ -663,7 +765,6 @@ body.waifuMode #top-bar {
   padding-bottom: 0;
 }
 
-/* 只对AI消息生效，因为用户消息不需要滑动箭头 */
 div[is_user="false"].last_mes .mes_block {
   padding-bottom: 50px;
 }
@@ -672,26 +773,48 @@ div[is_user="false"].last_mes .mes_block {
   margin: 0 var(--spacing-long) 0 0;
 }
 
+/* 用户与 AI 消息气泡底色 */
 div[is_user="true"] {
   background-color: var(--user-color) !important;
-}
-
-div[is_user="true"] .avatar img {
-  box-shadow: 0 0 0 2px
-      color-mix(in srgb, var(--theme-color-2) 60%, transparent),
-    0 0 10px 2px color-mix(in srgb, var(--theme-color-1) 60%, transparent);
 }
 
 div[is_user="false"] {
   background-color: var(--char-color) !important;
 }
 
-div[is_user="false"] .avatar img {
-  box-shadow: 0 0 0 2px
-      color-mix(in srgb, var(--theme-color-1) 60%, transparent),
-    0 0 10px 2px color-mix(in srgb, var(--theme-color-2) 60%, transparent);
+/* 双色高级发光微光环 (Dual Glow Avatar Effect) */
+.avatar img {
+  border-radius: 50%;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
+.avatar img:hover {
+  transform: scale(1.03);
+}
+
+div[is_user="true"] .avatar img {
+  box-shadow: 0 0 0 2px
+      color-mix(in srgb, var(--theme-color-2) 65%, transparent),
+    0 0 12px 2px color-mix(in srgb, var(--theme-color-1) 60%, transparent);
+}
+
+div[is_user="true"] .avatar img:hover {
+  box-shadow: 0 0 0 2.5px var(--theme-color-2),
+    0 0 18px 4px color-mix(in srgb, var(--theme-color-1) 75%, transparent);
+}
+
+div[is_user="false"] .avatar img {
+  box-shadow: 0 0 0 2px
+      color-mix(in srgb, var(--theme-color-1) 65%, transparent),
+    0 0 12px 2px color-mix(in srgb, var(--theme-color-2) 60%, transparent);
+}
+
+div[is_user="false"] .avatar img:hover {
+  box-shadow: 0 0 0 2.5px var(--theme-color-1),
+    0 0 18px 4px color-mix(in srgb, var(--theme-color-2) 75%, transparent);
+}
+
+/* 滑动箭头与控制项 */
 .swipe_left {
   left: calc(var(--scroll-width) + var(--spacing-short));
 }
@@ -710,7 +833,6 @@ div[is_user="false"] .avatar img {
 }
 
 /* 文档模式 */
-
 body.documentstyle #chat .ch_name::after {
   width: 0;
 }
@@ -747,14 +869,24 @@ body.waifuMode .zoomed_avatar {
   top: 70px;
 }
 
-/* 推理块 */
+/* 思考链/推理块 (Reasoning Block 深度强化) */
 .mes_reasoning_header {
-  margin: 1em 0;
-  padding: 7px calc(var(--mainFontSize) + 14px) 7px
-    calc(var(--mainFontSize) * 0.8);
-  background: color-mix(in srgb, var(--theme-color-1) 30%, transparent);
-  border: 1px solid var(--theme-color-1);
+  margin: 0.8em 0 0.3em 0;
+  padding: 8px 14px;
+  background: color-mix(in srgb, var(--theme-color-1) 20%, var(--ui-color-sec));
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 45%, transparent);
+  border-radius: var(--border-radius-small);
   color: var(--text-color-main);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.mes_reasoning_header:hover {
+  background: color-mix(in srgb, var(--theme-color-1) 32%, var(--ui-color-sec));
+  border-color: var(--theme-color-1);
+  box-shadow: 0 3px 10px color-mix(in srgb, var(--theme-color-1) 20%, transparent);
 }
 
 .mes_reasoning_header span::before {
@@ -763,18 +895,34 @@ body.waifuMode .zoomed_avatar {
   text-shadow: none;
   font-size: var(--mainFontSize);
   line-height: 1;
-  margin-right: 3px;
+  margin-right: 5px;
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
 }
+
 .mes_reasoning_details .mes_reasoning_arrow {
-  right: 10px;
-  font-size: calc(var(--mainFontSize) * 0.7) !important;
+  right: 12px;
+  font-size: calc(var(--mainFontSize) * 0.75) !important;
+  transition: transform var(--transition-fast);
 }
 
 .mes_reasoning {
-  border-left: 2px solid var(--theme-color-1);
+  border-left: 2.5px solid var(--theme-color-1);
+  border-radius: 0 var(--border-radius-small) var(--border-radius-small) 0;
+  background: color-mix(in srgb, var(--ui-color-main) 60%, transparent);
+  margin: 6px 0 12px 6px;
+  padding: 10px 14px;
+  color: var(--text-color-sec);
+  font-size: calc(var(--mainFontSize) * 0.95);
+  line-height: 1.6;
 }
 
-/* ---提示词管理器--- */
+/* ==========================================================================
+   9. 提示词管理器 (Prompt Manager)
+   ========================================================================== */
 #left-nav-panel {
   width: calc((100vw - var(--sheldWidth)) / 2 - var(--leftRight-chat-spacing));
   padding-right: 0;
@@ -828,14 +976,16 @@ label[for="openai_image_inlining"] + div,
 
 #completion_prompt_manager .completion_prompt_manager_header_advanced span {
   margin-left: 0;
+  filter: none;
 }
 
 #completion_prompt_manager
   #completion_prompt_manager_list
   li.completion_prompt_manager_prompt {
   border-radius: var(--border-radius-medium);
-  border-color: var(--white20a);
+  border: 1px solid var(--white20a);
   background-color: var(--ui-color-main);
+  transition: all var(--transition-fast);
 }
 
 #completion_prompt_manager
@@ -844,7 +994,7 @@ label[for="openai_image_inlining"] + div,
 #completion_prompt_manager
   #completion_prompt_manager_list
   li.completion_prompt_manager_prompt:focus {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   border-color: var(--theme-color-1);
   background-color: color-mix(in srgb, var(--theme-color-1) 15%, transparent);
   outline: none;
@@ -876,11 +1026,9 @@ label[for="openai_image_inlining"] + div,
   padding: 0 15px 10px 15px;
 }
 
-#completion_prompt_manager .completion_prompt_manager_header_advanced span {
-  filter: none;
-}
-
-/* ---世界书--- */
+/* ==========================================================================
+   10. 世界书管理 (World Info)
+   ========================================================================== */
 #WorldInfo {
   margin-top: var(--top-distance);
 }
@@ -911,11 +1059,14 @@ label[for="openai_image_inlining"] + div,
 .select2-container .select2-selection--multiple {
   background-color: var(--ui-color-sec);
   border: none;
+  border-radius: var(--border-radius-small);
 }
 
 .select2-container .select2-selection--multiple .select2-selection__choice,
 .select2-container .select2-selection--single .select2-selection__choice {
   background-color: color-mix(in srgb, var(--theme-color-2) 30%, transparent);
+  border: 1px solid color-mix(in srgb, var(--theme-color-2) 40%, transparent);
+  border-radius: 4px;
 }
 
 span.select2.select2-container .select2-selection__choice__remove,
@@ -943,12 +1094,14 @@ span.select2.select2-container .select2-selection__choice__remove,
   }
 }
 
-/* ---用户管理器--- */
+/* 用户管理器 */
 .avatar-container.selected {
   border-color: var(--theme-color-2);
 }
 
-/* ---图库--- */
+/* ==========================================================================
+   11. 背景图库与用户设置 (Backgrounds & User Settings)
+   ========================================================================== */
 #bg-header-fixed {
   padding: 0;
 }
@@ -967,32 +1120,43 @@ span.select2.select2-container .select2-selection__choice__remove,
 
 .bg_example {
   box-shadow: none;
-  border-color: var(--ui-color-sec);
+  border: 1px solid var(--ui-color-sec);
+  border-radius: var(--border-radius-small);
+  transition: all var(--transition-fast);
+}
+
+.bg_example:hover {
+  transform: translateY(-2px);
+  border-color: var(--theme-color-1);
 }
 
 .bg_example.selected {
   border-color: var(--theme-color-2);
+  box-shadow: 0 0 0 2px var(--theme-color-2);
 }
 
 .bg_button {
   color: var(--theme-color-1);
   filter: drop-shadow(0px 0px 2px white);
+  transition: all var(--transition-fast);
 }
 
 .bg_button:hover {
   background-color: var(--crimson70a);
+  border-radius: var(--border-radius-small);
 }
 
 .BGSampleTitle {
   color: #eeeeee !important;
 }
 
-/* ---用户设置--- */
 #movingUIPresets {
   margin-bottom: 0 !important;
 }
 
-/* ---角色管理器--- */
+/* ==========================================================================
+   12. 角色管理器与快速切换 (Character Manager & HotSwap)
+   ========================================================================== */
 #right-nav-panel {
   width: calc((100vw - var(--sheldWidth)) / 2 - var(--leftRight-chat-spacing));
 }
@@ -1020,6 +1184,12 @@ label[for="char-management-dropdown"] {
 .character_select,
 .bogus_folder_select {
   margin-top: calc(var(--mainFontSize) * 0.8);
+  border-radius: var(--border-radius-small);
+  transition: all var(--transition-fast);
+}
+
+.character_select:hover {
+  background-color: color-mix(in srgb, var(--theme-color-1) 12%, transparent);
 }
 
 .character_select.is_fav .avatar {
@@ -1038,9 +1208,11 @@ label[for="char-management-dropdown"] {
   font-size: calc(var(--icon-size) * 1);
   min-height: calc(var(--icon-size) * 2);
   min-width: calc(var(--icon-size) * 2);
+  border-radius: 4px;
+  transition: all var(--transition-fast);
 }
 
-/* 收藏区左右拖动 */
+/* 收藏区左右滑动条 */
 #HotSwapWrapper {
   overflow: hidden;
 }
@@ -1051,6 +1223,7 @@ label[for="char-management-dropdown"] {
   height: calc(var(--avatar-base-height) + var(--scroll-width) + 10px);
   max-height: calc(var(--avatar-base-height) * 2);
 }
+
 body.big-avatars #HotSwapWrapper > div {
   height: calc(
     var(--avatar-base-height) * var(--big-avatar-height-factor) +
@@ -1065,22 +1238,32 @@ body.big-avatars #HotSwapWrapper > div {
   background-color: var(--ui-color-sec);
 }
 
-/* ---底栏--- */
+/* ==========================================================================
+   13. 底栏发送区与快捷回复 (Bottom Send Form & Quick Replies)
+   ========================================================================== */
 #form_sheld {
   margin: var(--chat-send-spacing) auto var(--bottom-distance) auto;
+  padding-bottom: env(safe-area-inset-bottom, 0px); /* 兼容全面屏手势区 */
 }
 
 body.no-blur #send_form,
 #send_form {
   background-color: color-mix(
     in srgb,
-    var(--theme-color-1) 20%,
-    var(--ui-color-main) 60%
+    var(--theme-color-1) 16%,
+    var(--ui-color-main) 70%
   ) !important;
-  border: none;
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 22%, transparent);
   border-radius: var(--box-border-radius);
   backdrop-filter: none;
-  padding: 0 5px;
+  padding: 4px 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+#send_form:focus-within {
+  border-color: color-mix(in srgb, var(--theme-color-1) 50%, transparent);
+  box-shadow: 0 4px 24px color-mix(in srgb, var(--theme-color-1) 20%, transparent);
 }
 
 #send_form textarea {
@@ -1088,8 +1271,10 @@ body.no-blur #send_form,
   border: none !important;
 }
 
+/* 修复：使用标准的 CSS 变量调用替代错误的 color() 函数 */
 #send_form textarea::placeholder {
-  color: color(var(--text-color-sec)) !important;
+  color: var(--text-color-sec) !important;
+  opacity: 0.65;
 }
 
 #send_form .fa-solid {
@@ -1100,56 +1285,52 @@ body.no-blur #send_form,
   width: auto;
 }
 
-/* QR */
+/* 快捷回复按钮 (QR Buttons) */
 #qr--bar > .qr--buttons .qr--button,
 #qr--popout > .qr--body > .qr--buttons .qr--button {
-  background-color: color-mix(in srgb, var(--theme-color-1) 30%, transparent);
-  border-color: var(--theme-color-1) !important;
+  background-color: color-mix(in srgb, var(--theme-color-1) 25%, transparent);
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 40%, transparent) !important;
   border-radius: var(--border-radius-small) !important;
-  border-width: 0 0 0px 0 !important;
   font-size: calc(var(--mainFontSize) * 0.9);
+  transition: all var(--transition-fast);
+  cursor: pointer;
 }
 
 #qr--bar > .qr--buttons .qr--button:hover,
 #qr--popout > .qr--body > .qr--buttons .qr--button:hover {
   background-color: color-mix(
     in srgb,
-    var(--theme-color-1) 50%,
+    var(--theme-color-1) 48%,
     transparent
   ) !important;
+  border-color: var(--theme-color-1) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--theme-color-1) 25%, transparent);
+}
+
+#qr--bar > .qr--buttons .qr--button:active,
+#qr--popout > .qr--body > .qr--buttons .qr--button:active {
+  transform: scale(0.96);
 }
 
 #qr--popoutTrigger {
   background-color: transparent;
   border: none;
+  transition: opacity var(--transition-fast);
 }
 
-/* ---QR编辑器--- */
-.popup:has(#qr--modalEditor)
-  .popup-content
-  > #qr--modalEditor
-  > #qr--main
-  > .qr--modal-messageContainer
-  > #qr--modal-messageHolder
-  > #qr--modal-message {
+#qr--popoutTrigger:hover {
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+   14. QR 编辑器与选区高亮 (QR Editor & Modal)
+   ========================================================================== */
+.popup:has(#qr--modalEditor) #qr--modal-message {
   color: var(--text-color-main) !important;
 }
 
-.popup:has(#qr--modalEditor) .popup-content #qr--modal-message::selection {
+.popup:has(#qr--modalEditor) #qr--modal-message::selection {
+  background-color: color-mix(in srgb, var(--theme-color-1) 25%, transparent) !important;
   color: var(--text-color-main) !important;
 }
-
-@supports (color: rgb(from white r g b / 0.25)) {
-  .popup:has(#qr--modalEditor) .popup-content #qr--modal-message::selection {
-    background-color: rgb(from var(--theme-color-1) r g b / 0.25) !important;
-  }
-}
-
-/*
- * 作者：KAKAA | Discord: @rech0_viixi
- * 发布社区：类脑ΟΔΥΣΣΕΙΑ（https://discord.com/channels/1134557553011998840/1340273995018141757）
- * 发布社区：旅程ΟΡΙΖΟΝΤΑΣ（https://discord.com/channels/1291925535324110879/1374963777115656214）
- * 许可协议：CC BY-NC-SA 4.0
- * 二改分享需注明原作者
- * 禁止任何形式的商用及商用目的的引流！
- */
