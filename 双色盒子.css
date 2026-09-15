@@ -6,10 +6,10 @@
  * 二改分享需注明原作者
  * 禁止任何形式的商用及商用目的的引流！
  *
- * 【ST-Styles 独家特色增强版】：
- * 1. 浮空轻奢双色气泡（告别死板平铺直角，支持呼吸双边微光与圆角卡片）
- * 2. 悬浮磨砂流光底栏（Floating Island + 柔光霓虹聚焦）
- * 3. 极客胶囊元数据标签（Token/计时器/消息ID 胶囊徽章化）
+ * 【ST-Styles 现代侧边气泡 + 双色流光特色版】：
+ * 1. 现代侧边气泡流（AI 居左、用户居右，告别原版生硬居中大通栏）
+ * 2. 悬浮流光底栏（16px 胶囊悬浮岛 + 聚焦微霓虹光晕）
+ * 3. 极客胶囊元数据标签（Token/计时器/消息编号 胶囊徽章化）
  * 4. 灵动流光星芒呼吸灯（✦ 动态环境光影）
  * 5. 深度思考舱（Reasoning HUD 折叠舱）
  * 6. 全面屏安全区与全站平滑微动效
@@ -19,24 +19,24 @@
    1. 全局设计系统与独家特色配置 (Design System & Custom Features)
    ========================================================================== */
 :root {
-  /* --- 核心主题色体系 --- */
-  --theme-color-1: var(--SmartThemeQuoteColor);           /* 主色1（对应引用文本/AI标识色） */
-  --theme-color-2: var(--SmartThemeUnderlineColor);       /* 主色2（对应下划线/用户标识色） */
-  --ui-color-main: var(--SmartThemeBlurTintColor);        /* 对应UI背景 */
+  /* --- 核心主题色体系（默认读取酒馆调色盘） --- */
+  --theme-color-1: var(--SmartThemeQuoteColor, #6366f1);           /* 主色1（对应引用文本/AI标识色） */
+  --theme-color-2: var(--SmartThemeUnderlineColor, #ec4899);       /* 主色2（对应下划线/用户标识色） */
+  --ui-color-main: var(--SmartThemeBlurTintColor, #13131a);        /* 对应UI背景 */
   --ui-color-sec: color-mix(
     in srgb,
     var(--ui-color-main) 88%,
     var(--text-color-main)
-  );                                                      /* 自适应UI次级颜色 */
-  --top-bar-color: var(--SmartThemeBorderColor);          /* 顶栏颜色 */
-  --top-bar-underline-color: var(--theme-color-1);        /* 顶栏下边缘颜色 */
-  --top-bar-icon-color: var(--text-color-main);           /* 顶栏图标颜色 */
-  --chat-background-color: var(--SmartThemeChatTintColor);/* 对应聊天背景 */
-  --text-color-main: var(--SmartThemeBodyColor);          /* 对应主要文本 */
-  --text-color-sec: var(--SmartThemeEmColor);             /* 对应斜体/次要文本 */
-  --user-color: var(--SmartThemeUserMesBlurTintColor);    /* 对应用户消息模糊色调 */
-  --char-color: var(--SmartThemeBotMesBlurTintColor);     /* 对应AI消息模糊色调 */
-  --code-color: var(--SmartThemeShadowColor);             /* 对应代码块与阴影颜色 */
+  );                                                               /* 自适应UI次级颜色 */
+  --top-bar-color: var(--SmartThemeBorderColor, #181822);          /* 顶栏颜色 */
+  --top-bar-underline-color: var(--theme-color-1);                 /* 顶栏下边缘颜色 */
+  --top-bar-icon-color: var(--text-color-main);                    /* 顶栏图标颜色 */
+  --chat-background-color: var(--SmartThemeChatTintColor, #0c0c11);/* 对应聊天背景 */
+  --text-color-main: var(--SmartThemeBodyColor, #f3f4f6);          /* 对应主要文本 */
+  --text-color-sec: var(--SmartThemeEmColor, #9ca3af);             /* 对应斜体/次要文本 */
+  --user-color: var(--SmartThemeUserMesBlurTintColor, #1c1528);    /* 对应用户消息底色 */
+  --char-color: var(--SmartThemeBotMesBlurTintColor, #151828);     /* 对应AI消息底色 */
+  --code-color: var(--SmartThemeShadowColor, #0a0a0f);             /* 对应代码块与阴影颜色 */
 
   /* --- 渐变与动态混合色 --- */
   --gradient-main: linear-gradient(
@@ -47,10 +47,10 @@
   );
 
   /* --- 【特色参数：随心定制】--- */
-  --mes-width: 95%;                                       /* 气泡卡片宽度（留出左右呼吸缝隙） */
-  --mes-block-width: 96%;                                 /* 消息内部文字宽度 */
+  --mes-width: 95%;                                       /* 气泡卡片宽度 */
+  --mes-block-width: 100%;                                /* 消息内部文字宽度 */
   --box-border-radius: 12px;                              /* 通用容器圆角 */
-  --bubble-border-radius: 14px;                           /* 消息气泡轻奢圆角 */
+  --bubble-border-radius: 16px;                           /* 消息气泡轻奢圆角 */
   --top-distance: 0px;                                    /* 顶栏与上边沿距离 */
   --bottom-distance: 0px;                                 /* 底栏与下边沿距离 */
   --chat-send-spacing: 6px;                               /* 聊天界面与发送框距离 */
@@ -77,8 +77,6 @@
 /* ==========================================================================
    2. 标题排版与灵动星芒 (Typography & Shimmering Stars)
    ========================================================================== */
-
-/* 灵动呼吸星芒动画 */
 @keyframes st-star-shimmer {
   0%, 100% {
     filter: drop-shadow(0 0 2px color-mix(in srgb, var(--theme-color-1) 80%, transparent));
@@ -221,7 +219,7 @@
   border-radius: 999px;
   box-shadow: none;
   border: 0;
-  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  transition: background-color var(--transition-fast);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -280,7 +278,6 @@ textarea[type="search"] {
   border-color: var(--theme-color-1);
 }
 
-/* 按钮微动效与触觉反馈 */
 .menu_button:not(.mes_edit_buttons *) {
   background-color: var(--ui-color-sec);
   border: 1px solid color-mix(in srgb, var(--theme-color-1) 18%, var(--ui-color-sec));
@@ -356,7 +353,6 @@ textarea[type="search"] {
   text-shadow: none !important;
 }
 
-/* 下拉框与选项 */
 select {
   background-color: var(--ui-color-sec) !important;
   color: var(--text-color-main);
@@ -390,7 +386,6 @@ select option {
   color: var(--theme-color-1) !important;
 }
 
-/* 勾选框 */
 input[type="checkbox"] {
   width: calc(var(--mainFontSize) * 0.95);
   height: calc(var(--mainFontSize) * 0.95);
@@ -418,7 +413,6 @@ input[type="checkbox"].del_checkbox {
   margin-right: 0;
 }
 
-/* 滑动条 */
 input[type="range"] {
   box-shadow: none;
   background-color: var(--ui-color-sec) !important;
@@ -527,7 +521,6 @@ body.big-avatars .avatar img {
   border: none;
 }
 
-/* 代码块轻奢化 */
 code {
   margin: 0;
   border: 1px solid color-mix(in srgb, var(--theme-color-1) 25%, transparent);
@@ -689,7 +682,7 @@ body.waifuMode #top-bar {
 }
 
 /* ==========================================================================
-   8. 核心聊天流与【独家轻奢微光卡片气泡】(Chat Stream & Ambient Bubble Cards)
+   8. 核心聊天流与【现代左右对齐侧边气泡流】(Modern Side-Avatar Chat Flow)
    ========================================================================== */
 #sheld {
   top: calc(var(--topBarBlockSize) + var(--top-distance));
@@ -699,10 +692,8 @@ body.waifuMode #top-bar {
 #chat {
   overflow-y: auto;
   scrollbar-gutter: stable;
-  align-items: center;
   max-height: calc(100dvh - var(--topBarBlockSize) - 20px) !important;
-  padding: calc(var(--scroll-width) + 6px) 0 var(--scroll-width)
-    var(--scroll-width);
+  padding: calc(var(--scroll-width) + 8px) 10px var(--scroll-width) 10px;
   border-radius: 0 0 var(--box-border-radius) var(--box-border-radius);
   background-color: var(--chat-background-color);
 }
@@ -713,31 +704,109 @@ body.waifuMode #top-bar {
   }
 }
 
+/* 【核心排版重构】：现代左右侧边气泡流（告别原版生硬居中大通栏） */
+.mes {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  width: min(var(--mes-width), 1050px) !important;
+  margin: 14px auto !important;
+  padding: 14px 18px !important;
+  border-radius: var(--bubble-border-radius) !important;
+  gap: 14px !important;
+  box-sizing: border-box !important;
+  border: 1px solid color-mix(in srgb, var(--ui-color-sec) 70%, transparent) !important;
+  background-color: var(--ui-color-main) !important;
+  box-shadow: 0 4px 20px -3px rgba(0, 0, 0, 0.28);
+  transition: background-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-fast);
+}
+
+.mes:hover {
+  box-shadow: 0 6px 26px -2px rgba(0, 0, 0, 0.35);
+}
+
+/* 用户消息左右对调：头像居右、气泡居左 */
+div[is_user="true"].mes {
+  flex-direction: row-reverse !important;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--user-color) 92%, var(--theme-color-2) 8%),
+    var(--user-color)
+  ) !important;
+  border-right: 3.5px solid var(--theme-color-2) !important;
+  box-shadow: 0 4px 20px -3px color-mix(in srgb, var(--theme-color-2) 15%, transparent);
+}
+
+/* AI 消息：头像居左、专属左侧光条 */
+div[is_user="false"].mes {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--char-color) 92%, var(--theme-color-1) 8%),
+    var(--char-color)
+  ) !important;
+  border-left: 3.5px solid var(--theme-color-1) !important;
+  box-shadow: 0 4px 20px -3px color-mix(in srgb, var(--theme-color-1) 15%, transparent);
+}
+
+/* 头像容器：移至侧边，不再居中拉伸 */
 .mesAvatarWrapper {
-  margin: 0 auto;
+  margin: 0 !important;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  flex-shrink: 0 !important;
 }
 
 .mesAvatarWrapper .avatar {
-  margin: calc(var(--mainFontSize) * 1.1) 0 calc(var(--mainFontSize) * 0.4) 0;
+  margin: 2px 0 0 0 !important;
 }
 
-/* 【独家特色】：消息计时器、Token数、ID 优雅胶囊标签化 */
+/* 消息内容主块：自适应占据剩余宽度 */
+.mes_block {
+  flex: 1 !important;
+  width: auto !important;
+  min-width: 0 !important;
+  padding-left: 0 !important;
+}
+
+.mes_text {
+  padding: calc(var(--mainFontSize) * 0.4) 0 0 0;
+  line-height: 1.72;
+}
+
+/* 角色名与标签顶栏 */
+#chat .ch_name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 calc(var(--mainFontSize) * 0.4) 0;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-color-sec) 25%, transparent);
+}
+
+div[is_user="true"] #chat .ch_name {
+  flex-direction: row-reverse;
+}
+
+#chat .ch_name::after {
+  display: none;
+}
+
+/* 极客胶囊元数据标签 */
 .mesIDDisplay,
 .mes_timer,
 .tokenCounterDisplay {
   display: inline-flex !important;
   align-items: center;
   padding: 1.5px 7px;
-  margin: 2px 3px;
+  margin: 0 3px;
   border-radius: 999px;
   font-size: calc(var(--mainFontSize) * 0.72);
   font-family: var(--monospaceFont, monospace);
   background: color-mix(in srgb, var(--ui-color-sec) 75%, transparent);
-  border: 1px solid color-mix(in srgb, var(--theme-color-1) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--theme-color-1) 20%, transparent);
   color: var(--text-color-sec);
   letter-spacing: 0.02em;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -752,55 +821,6 @@ body.waifuMode #top-bar {
   background: color-mix(in srgb, var(--theme-color-1) 15%, var(--ui-color-sec));
 }
 
-#chat .ch_name {
-  position: relative;
-  align-items: flex-end;
-  padding: calc(var(--mainFontSize) * 0.8) 0;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-#chat .ch_name::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--theme-color-1) 50%, transparent),
-    transparent
-  );
-}
-
-/* 【独家特色】：轻奢圆角浮空卡片模式（告别原本呆板的直角平铺） */
-.mes {
-  width: var(--mes-width);
-  margin: 8px auto !important;
-  border-radius: var(--bubble-border-radius) !important;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid color-mix(in srgb, var(--ui-color-sec) 70%, transparent) !important;
-  background-color: var(--ui-color-main) !important;
-  box-shadow: 0 4px 18px -3px rgba(0, 0, 0, 0.22);
-  transition: background-color var(--transition-normal), box-shadow var(--transition-normal), transform var(--transition-fast);
-}
-
-.mes:hover {
-  box-shadow: 0 6px 24px -2px rgba(0, 0, 0, 0.3);
-}
-
-.mes_text {
-  padding: calc(var(--mainFontSize) * 0.8) 0 0 0;
-  line-height: 1.72;
-}
-
-.mes_block {
-  width: var(--mes-block-width);
-  padding-left: 0;
-}
-
 .last_mes .mes_text {
   padding-right: 0;
 }
@@ -810,42 +830,21 @@ body.waifuMode #top-bar {
 }
 
 div[is_user="false"].last_mes .mes_block {
-  padding-bottom: 50px;
+  padding-bottom: 45px;
 }
 
 .last_mes .swipeRightBlock {
   margin: 0 var(--spacing-long) 0 0;
 }
 
-/* 【独家特色】：AI 与用户专属双色环境氛围侧边饰条 */
-div[is_user="false"].mes {
-  background: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--char-color) 92%, var(--theme-color-1) 8%),
-    var(--char-color)
-  ) !important;
-  border-left: 3.5px solid var(--theme-color-1) !important;
-  box-shadow: 0 4px 20px -3px color-mix(in srgb, var(--theme-color-1) 12%, transparent);
-}
-
-div[is_user="true"].mes {
-  background: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--user-color) 92%, var(--theme-color-2) 8%),
-    var(--user-color)
-  ) !important;
-  border-right: 3.5px solid var(--theme-color-2) !important;
-  box-shadow: 0 4px 20px -3px color-mix(in srgb, var(--theme-color-2) 12%, transparent);
-}
-
-/* 双色发光光环算法增强 */
+/* 双色发光光环算法 */
 .avatar img {
   border-radius: 50%;
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
 .avatar img:hover {
-  transform: scale(1.04);
+  transform: scale(1.06);
 }
 
 div[is_user="true"] .avatar img {
@@ -888,44 +887,7 @@ div[is_user="false"] .avatar img:hover {
   background-color: var(--crimson70a) !important;
 }
 
-/* 文档模式兼容 */
-body.documentstyle #chat .ch_name::after {
-  width: 0;
-}
-
-body.documentstyle #chat .mes .mes_block {
-  margin-right: 0;
-  padding-bottom: 15px;
-}
-
-body.documentstyle #chat .last_mes .mes_block {
-  padding-bottom: 50px;
-}
-
-body.documentstyle #chat .last_mes {
-  padding-top: var(--border-radius-medium);
-}
-
-body.documentstyle #chat .mes_text {
-  margin-left: 0 !important;
-}
-
-body.documentstyle #chat .last_mes .swipe_left {
-  left: var(--scroll-width);
-}
-
-/* 视觉小说模式 */
-body.waifuMode #chat {
-  border: none;
-  box-shadow: none;
-  border-radius: var(--border-radius-small);
-}
-
-body.waifuMode .zoomed_avatar {
-  top: 70px;
-}
-
-/* 【独家特色】：深度思考舱 (Reasoning HUD 折叠舱设计) */
+/* 深度思考舱 (Reasoning HUD 舱) */
 .mes_reasoning_header {
   margin: 0.9em 0 0.3em 0;
   padding: 8px 14px;
@@ -1358,7 +1320,6 @@ body.no-blur #send_form,
   width: auto;
 }
 
-/* 快捷回复按钮 (QR Buttons 悬浮微霓虹) */
 #qr--bar > .qr--buttons .qr--button,
 #qr--popout > .qr--body > .qr--buttons .qr--button {
   background-color: color-mix(in srgb, var(--theme-color-1) 22%, transparent);
